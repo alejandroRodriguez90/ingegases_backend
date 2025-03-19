@@ -38,18 +38,19 @@ class UsuarioView (APIView):
     
 
 class UsuarioLogin(APIView):
-    def post(selft, request):
+    def post(self, request):
         email = request.data.get("correo")
         password = request.data.get("contrasena")
-        usuario = Usuario.objects.get("correo")
-
-        if usuario is None:
-            return Response({"error": "Usuario no encontrado"}, status=status.HTTP_404_NOT_FOUND)
-        if usuario.contrasena != password:
-            return Response({"error": "Contraseña incorrecta"}, status=status.HTTP_400_BAD_REQUEST)
-
-        usuario_serializado = UsuarioSerializers(usuario)
-        return Response(usuario_serializado.data)
+        
+        usuario = Usuario.objects.filter(correo=email)
+        print(usuario)
+        if usuario:
+            if usuario.contrasena == password:
+                return Response({
+                    "message": "usuario encontrado"
+                })
+            return Response({"error": "contrasena incorrecta"})
+        return Response({"error": "usuario no encontrado"})
 
 
         
