@@ -45,12 +45,11 @@ class UsuarioLogin(APIView):
         usuario = Usuario.objects.filter(correo=email)
         print(usuario)
         if usuario:
-            if usuario.contrasena == password:
-                return Response({
-                    "message": "usuario encontrado"
-                })
-            return Response({"error": "contrasena incorrecta"})
-        return Response({"error": "usuario no encontrado"})
+            if usuario[0].contrasena == password:
+                return Response({"mensaje": "Usuario autenticado"}, status=status.HTTP_200_OK)
+            else:
+                return Response({"mensaje": "Contraseña incorrecta"}, status=status.HTTP_400_BAD_REQUEST)
+
 
 
         
