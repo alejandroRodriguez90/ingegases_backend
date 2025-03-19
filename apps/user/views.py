@@ -35,6 +35,18 @@ class UsuarioView (APIView):
 
         usuario_serializado = UsuarioSerializers(usuario)
         return Response(usuario_serializado.data, status=status.HTTP_201_CREATED)
+    
+
+class UsuarioLogin(APIView):
+    def post(selft, request):
+        email = request.data.get("correo")
+        password = request.data.get("contrasena")
+        usuario = Usuario.objects.get("correo")
+        if usuario:
+            if Usuario.contrasena == password:
+                return Response({"message": "ok"})
+            
+        
 
 
 
