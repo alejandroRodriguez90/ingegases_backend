@@ -13,12 +13,15 @@ class UsuarioView (APIView):
     
     def post(selft, request):
         #quiero que siempre el rol_id sea 2
-        request.data['rol_id'] = 2
+        rol = Rol.objects.get(id=2)
+        request.data['rol_id'] = rol.id
         usuario = UsuarioSerializers(data=request.data)
         if usuario.is_valid():
             usuario.save()
             return Response(usuario.data, status=status.HTTP_201_CREATED)
         return Response(usuario.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 
 
 
